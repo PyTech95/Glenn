@@ -1,0 +1,1 @@
+export const MEDIA={hero:'/images/repair-hero.webp',workshop:'/images/workshop.webp',phone:'/images/phone-inside.webp',macbook:'/images/macbook.webp'};

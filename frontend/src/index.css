@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+ :root {--background:0 0% 100%;--foreground:150 12% 12%;--card:0 0% 100%;--card-foreground:150 12% 12%;--popover:0 0% 100%;--popover-foreground:150 12% 12%;--primary:155 68% 30%;--primary-foreground:0 0% 100%;--secondary:150 15% 96%;--secondary-foreground:150 12% 12%;--muted:150 15% 96%;--muted-foreground:150 5% 43%;--accent:150 15% 96%;--accent-foreground:150 12% 12%;--destructive:0 70% 48%;--destructive-foreground:0 0% 100%;--border:150 10% 89%;--input:150 10% 86%;--ring:155 68% 30%;--radius:0.4rem;}
+ * {@apply border-border;box-sizing:border-box;letter-spacing:0;}
+ body {@apply bg-background text-foreground;margin:0;font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+}
+::selection{background:#c2ecd9;color:#163b2b}html{scroll-behavior:smooth;scroll-padding-top:105px}button,input,select,textarea{font:inherit}button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}button,a{touch-action:manipulation}a{text-decoration:none;color:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55}img{max-width:100%;display:block}h1,h2,h3,h4,p{margin:0}h1,h2,h3,h4{font-family:'Manrope',sans-serif}button:focus-visible,a:focus-visible{outline:3px solid #36ad7d;outline-offset:4px}input:focus,select:focus,textarea:focus{outline:2px solid #279866;outline-offset:1px}input,select,textarea{min-width:0}svg{flex-shrink:0}#root{min-height:100vh}
