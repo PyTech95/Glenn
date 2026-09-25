@@ -19,8 +19,8 @@ ADMIN_SETUP_TOKEN = os.environ.get('ADMIN_SETUP_TOKEN', '')
 MONGO_URL = os.environ.get('MONGO_URL', '')
 DB_NAME = os.environ.get('DB_NAME', '')
 
-TEST_ADMIN_EMAIL = 'qa.glenntek@example.com'
-TEST_ADMIN_PASSWORD = 'QA_StrongPass_2026!'
+TEST_ADMIN_EMAIL = 'admin@glenntek.com'
+TEST_ADMIN_PASSWORD = 'GlennTek@2026!'
 TEST_IDS = {'lead_id': None, 'page_id': None, 'generated_page_id': None}
 
 
@@ -56,7 +56,6 @@ def cleanup_test_data():
     db.pages.delete_many({'slug': {'$regex': '^test-'}})
     db.pages.delete_many({'title': {'$regex': '^TEST_'}})
     db.sessions.delete_many({'admin_id': 'owner'})
-    db.admins.delete_many({'email': TEST_ADMIN_EMAIL})
     mongo.close()
 
 
@@ -151,7 +150,7 @@ def test_05_csrf_and_origin_protection_for_mutations(admin_client):
     without_csrf = admin_client.put(
         f'{BASE_URL}/api/admin/settings',
         json=settings,
-        headers={'Origin': FRONTEND_ORIGIN},
+        headers={'Origin': FRONTEND_ORIGIN, 'X-CSRF-Token': ''},
         timeout=20,
     )
     assert without_csrf.status_code == 403

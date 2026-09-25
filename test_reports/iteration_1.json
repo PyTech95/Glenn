@@ -1,0 +1,43 @@
+{
+  "summary": "Full e2e verification of GlennTek deployment. Backend: 12/12 pytest tests pass (auth, leads CRUD, admin CMS/pages generation, SEO, locations, CSRF/origin protection, settings validation, sitemap/robots). Frontend: homepage renders fully (hero-title visible in PT and /en); all requested pages (/reparacoes, /localizacoes, /faq, /contactos, /orcamento, /reparacao-iphone, /blog, /blog/quando-substituir-bateria-iphone) return 200 with proper H1s. Quote/lead form submission from /orcamento posts to /api/leads and returns 201 with success confirmation card (reference code shown). Admin login at /admin works with provided credentials, dashboard loads showing the submitted lead. SEO: /sitemap.xml and /robots.txt return 200 (served at root via ingress); /api/health returns {status: ok}. The reported concern about the homepage stuck on the loading spinner is NOT reproducible in a real browser — homepage mounts cleanly.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "QuoteForm phone input",
+        "issue": "HTML5 pattern attribute value \"[+0-9() \\-]{7,24}\" is invalid in modern browsers (Chrome logs: 'Invalid character in character class' when parsing as /v regex). Native browser validation for phone silently disabled; server-side validation still enforces the pattern so functionality is not broken, but client-side hint is lost.",
+        "selector": "[data-testid=\"quote-phone\"]",
+        "priority": "LOW"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_glenntek_api.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Optional: fix QuoteForm phone pattern regex to be Unicode-mode safe, e.g. pattern=\"[+0-9()\\-\\s]{7,24}\" (escape dash or put it at the end of the character class)."
+  ],
+  "critical_code_review_comments": [
+    "Rate limiting on /api/auth/login is 8 attempts / 15 min per IP — reasonable but be aware repeated automated tests can hit the cap; existing tests now clear rate_limits collection at start.",
+    "Cookie/CSRF pattern (HttpOnly session + X-CSRF-Token header + Origin check) is correctly enforced; verified via test_05."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_glenntek_api.py (switched admin creds to real admin@glenntek.com from /app/memory/test_credentials.md; stopped fixture from deleting the real admin; forced empty X-CSRF-Token on the negative-case PUT in test_05)"
+  ],
+  "success_rate": {
+    "backend": "100%",
+    "frontend": "100%"
+  },
+  "test_credentials": "admin@glenntek.com / GlennTek@2026! (from /app/memory/test_credentials.md) — verified working",
+  "seed_data_creation": "One test lead was created via UI submission (TEST_UI Lead) and cleaned up afterwards. Backend pytest also creates/deletes TEST_ leads and test-* CMS pages via cleanup fixture.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "App is fully functional. Before running the backend suite, run `mongosh --quiet --eval 'db=db.getSiblingDB(\"glanetek_database\"); db.rate_limits.deleteMany({});'` to avoid login rate-limit false failures. Admin credentials are the real ones (admin@glenntek.com / GlennTek@2026!); the test fixture no longer deletes the admin. SEO endpoints are at root (/sitemap.xml, /robots.txt) — not under /api. FRONTEND_ORIGIN in backend/.env intentionally points to the ...cluster-5.preview.emergentcf.cloud origin due to ingress rewriting; do not change to the public preview URL or auth will break.",
+  "rca of the issue": "N/A — the reported 'homepage stuck on loading spinner' was a false positive from the screenshot tool. Real-browser Playwright renders hero-title within ~2s and /api/site returns 200 quickly."
+}
