@@ -19,7 +19,7 @@ function Site(){
  const location=useLocation();const lang=location.pathname==='/en'||location.pathname.startsWith('/en/')?'en':'pt';const [site,setSite]=useState(null);const [error,setError]=useState(false);const isAdmin=location.pathname.startsWith('/admin');const campaign=location.pathname.includes('/campanhas/');
  useEffect(()=>{const load=()=>api.get('/site').then(r=>setSite(r.data)).catch(()=>setError(true));load();window.addEventListener('site-updated',load);return()=>window.removeEventListener('site-updated',load)},[]);
  useEffect(()=>{window.scrollTo(0,0);saveCampaign()},[location.pathname,location.search]);
- if(error&&!site)return <div className="error-page"><h1 data-testid="site-load-error">GlennTek</h1><p>Não foi possível carregar o website. / Unable to load the website.</p><button className="btn btn-primary" data-testid="site-retry" onClick={()=>window.location.reload()}>Tentar novamente / Retry</button></div>;
+ if(error&&!site)return <div className="error-page"><h1 data-testid="site-load-error">Glenntek</h1><p>Não foi possível carregar o website. / Unable to load the website.</p><button className="btn btn-primary" data-testid="site-retry" onClick={()=>window.location.reload()}>Tentar novamente / Retry</button></div>;
  if(!site)return <Loading/>;
  const staticRoutes=['reparacoes','marcas','localizacoes','como-funciona','sobre-nos','blog','faq','contactos','orcamento','privacidade','cookies','termos'];
  const currentPage=site.pages.find(p=>'/'+p.slug===location.pathname.replace(/^\/en/,'').replace(/\/$/,''));

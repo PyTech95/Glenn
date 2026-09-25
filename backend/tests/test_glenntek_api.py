@@ -126,7 +126,7 @@ def test_03_admin_setup_login_logout_and_me(admin_client):
 def test_04_admin_endpoints_reject_anonymous(anon_client):
     endpoints = [
         ('GET', '/api/admin/settings', None),
-        ('PUT', '/api/admin/settings', {'business_name': 'GlennTek'}),
+        ('PUT', '/api/admin/settings', {'business_name': 'Glenntek'}),
         ('GET', '/api/admin/pages', None),
         ('POST', '/api/admin/pages', {'title': 'x'}),
         ('POST', '/api/admin/generate', {'service_id': 'x', 'location_id': 'y'}),

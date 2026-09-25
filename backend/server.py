@@ -18,7 +18,7 @@ async def lifespan(app):
     yield
     client.close()
 
-app=FastAPI(title='GlennTek',docs_url=None,redoc_url=None,lifespan=lifespan)
+app=FastAPI(title='Glenntek',docs_url=None,redoc_url=None,lifespan=lifespan)
 app.add_middleware(CORSMiddleware,allow_origins=[os.environ['FRONTEND_ORIGIN']],allow_credentials=True,allow_methods=['GET','POST','PUT','PATCH','DELETE','OPTIONS'],allow_headers=['Content-Type','X-CSRF-Token'])
 
 @app.middleware('http')
@@ -39,7 +39,7 @@ async def security_headers(request:Request,call_next):
     return response
 
 @app.get('/api/health')
-async def health():return {'status':'ok','brand':'GlennTek'}
+async def health():return {'status':'ok','brand':'Glenntek'}
 
 app.include_router(auth_router)
 app.include_router(leads_router)

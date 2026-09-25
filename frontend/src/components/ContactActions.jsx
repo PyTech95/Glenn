@@ -6,7 +6,7 @@ import { track } from '../lib/api';
 
 export const ContactActions=({context={},id='contact',compact=false,quote=true})=>{
  const {settings,lang}=useSite();const t=useText();
- const message=lang==='en'?`Hello GlennTek, I would like information about ${context.service||context.device||'device repair'}${context.municipality?' in '+context.municipality:''}.`:`Olá GlennTek, gostaria de pedir informações sobre ${context.service||context.device||'reparação do meu equipamento'}${context.municipality?' em '+context.municipality:''}.`;
+ const message=lang==='en'?`Hello Glenntek, I would like information about ${context.service||context.device||'device repair'}${context.municipality?' in '+context.municipality:''}.`:`Olá Glenntek, gostaria de pedir informações sobre ${context.service||context.device||'reparação do meu equipamento'}${context.municipality?' em '+context.municipality:''}.`;
  const wa=settings.whatsapp?`https://wa.me/${settings.whatsapp.replace(/\D/g,'')}?text=${encodeURIComponent(message+'\n'+window.location.href)}`:null;
  const missing=(e)=>{e.preventDefault();toast.info(t('Este contacto ainda não está disponível. Envie o seu pedido pelo formulário.','This contact is not available yet. Please use the enquiry form.'));document.getElementById('orcamento')?.scrollIntoView({behavior:'smooth'});};
  return <div className={`contact-actions ${compact?'compact':''}`}>

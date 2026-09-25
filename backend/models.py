@@ -97,7 +97,7 @@ class PageInput(BaseModel):
         return v
 
 class SettingsInput(BaseModel):
-    business_name: str = Field(default='GlennTek', min_length=2, max_length=100)
+    business_name: str = Field(default='Glenntek', min_length=2, max_length=100)
     legal_name: str = Field(default='', max_length=150)
     tax_id: str = Field(default='', max_length=30)
     phone: str = Field(default='', max_length=24)

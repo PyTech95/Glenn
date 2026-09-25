@@ -7,12 +7,12 @@ from db import db
 
 router=APIRouter(prefix='/api/seo')
 STATIC={
- '':('Reparação de Telemóveis, Tablets e Computadores em Portugal','Phone, Tablet and Computer Repair in Portugal','Dê uma nova vida ao seu equipamento. Peça uma avaliação à GlennTek para telemóveis, tablets e computadores.','Give your device a second life. Request a GlennTek assessment for phones, tablets and computers.'),
+ '':('Reparação de Telemóveis, Tablets e Computadores em Portugal','Phone, Tablet and Computer Repair in Portugal','Dê uma nova vida ao seu equipamento. Peça uma avaliação à Glenntek para telemóveis, tablets e computadores.','Give your device a second life. Request a Glenntek assessment for phones, tablets and computers.'),
  'reparacoes':('Todas as reparações','All repairs','Escolha o seu dispositivo e descreva o problema. Peça um orçamento antes de decidir.','Choose your device and describe the issue. Request a quote before deciding.'),
  'marcas':('Marcas e equipamentos','Brands and devices','Consulte a disponibilidade de assistência para a marca e modelo do seu equipamento.','Check repair availability for your device brand and model.'),
  'localizacoes':('Onde precisa de ajuda?','Where do you need help?','Pesquise por cidade ou código postal. A cobertura e a forma de atendimento são confirmadas individualmente.','Search by city or postcode. Coverage and service arrangements are confirmed individually.'),
  'como-funciona':('Da primeira mensagem ao próximo capítulo.','From the first message to the next chapter.','Escolha o dispositivo, descreva o problema e receba uma avaliação antes de autorizar qualquer reparação.','Choose your device, describe the problem and get an assessment before authorising any repair.'),
- 'sobre-nos':('Mais vida para a sua tecnologia.','More life for your technology.','Na GlennTek, acreditamos numa decisão informada antes de substituir um equipamento.','At GlennTek, we believe in making an informed decision before replacing a device.'),
+ 'sobre-nos':('Mais vida para a sua tecnologia.','More life for your technology.','Na Glenntek, acreditamos numa decisão informada antes de substituir um equipamento.','At Glenntek, we believe in making an informed decision before replacing a device.'),
  'contactos':('Vamos conversar.','Let’s talk.','Conte-nos o que aconteceu ao seu dispositivo e indique como prefere ser contactado.','Tell us what happened to your device and how you prefer to be contacted.'),
  'blog':('Mais conhecimento. Melhor tecnologia.','More knowledge. Better technology.','Conselhos práticos sobre baterias, ecrãs, líquidos e manutenção dos seus equipamentos.','Practical advice on batteries, screens, liquid damage and caring for your devices.'),
  'faq':('Perguntas frequentes','Frequently asked questions','Respostas sobre avaliação, orçamento, dados e disponibilidade de reparação.','Answers about assessments, quotes, data and repair availability.'),
@@ -40,7 +40,7 @@ async def document_data(path):
         content='';faqs=[];kind='website'
         if slug in ['privacidade','cookies','termos','orcamento']:noindex=True
     elif slug.startswith('admin'):
-        title='Administração GlennTek';description='Área reservada';content='';faqs=[];kind='website';noindex=True
+        title='Administração Glenntek';description='Área reservada';content='';faqs=[];kind='website';noindex=True
     else:
         page=await db.pages.find_one({'slug':slug,'status':'published'},{'_id':0})
         if not page:
@@ -51,17 +51,17 @@ async def document_data(path):
             content=translated(page,'content',en);faqs=page.get('faqs',[]);kind=page['kind']
             noindex=page.get('noindex',True) or not page.get('verified') or (not settings.get('verified_business') and kind!='blog')
             if en and not page.get('content_en'):noindex=True
-    title=title if 'GlennTek' in title else title+' | GlennTek'
-    graph=[{'@type':'Organization','@id':base+'/#organization','name':settings['business_name'],'url':base+'/'},{'@type':'WebSite','@id':base+'/#website','name':'GlennTek','url':base+'/','inLanguage':['pt-PT','en']}]
+    title=title if 'Glenntek' in title else title+' | Glenntek'
+    graph=[{'@type':'Organization','@id':base+'/#organization','name':settings['business_name'],'url':base+'/'},{'@type':'WebSite','@id':base+'/#website','name':'Glenntek','url':base+'/','inLanguage':['pt-PT','en']}]
     if settings.get('phone'):graph[0]['telephone']=settings['phone']
     if settings.get('email'):graph[0]['email']=settings['email']
     if page:
         graph.append({'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':'Home' if en else 'Início','item':base+('/en/' if en else '/')},{'@type':'ListItem','position':2,'name':translated(page,'title',en),'item':canonical}]})
-        if kind=='blog':graph.append({'@type':'Article','headline':translated(page,'title',en),'description':description,'datePublished':page['created_at'],'dateModified':page['updated_at'],'author':{'@type':'Organization','name':'GlennTek'},'mainEntityOfPage':canonical,'inLanguage':'en' if en else 'pt-PT'})
+        if kind=='blog':graph.append({'@type':'Article','headline':translated(page,'title',en),'description':description,'datePublished':page['created_at'],'dateModified':page['updated_at'],'author':{'@type':'Organization','name':'Glenntek'},'mainEntityOfPage':canonical,'inLanguage':'en' if en else 'pt-PT'})
         elif kind in ['service','repair','service_location'] and page.get('verified'):
             graph.append({'@type':'Service','name':translated(page,'title',en),'description':description,'provider':{'@id':base+'/#organization'},'url':canonical})
         if kind=='location' and page.get('physical') and page.get('verified') and page.get('address'):
-            graph.append({'@type':'LocalBusiness','name':'GlennTek — '+page['title'],'address':{'@type':'PostalAddress','streetAddress':page['address'],'addressLocality':page.get('municipality',''),'addressCountry':'PT'},'telephone':page.get('phone',''),'url':canonical})
+            graph.append({'@type':'LocalBusiness','name':'Glenntek — '+page['title'],'address':{'@type':'PostalAddress','streetAddress':page['address'],'addressLocality':page.get('municipality',''),'addressCountry':'PT'},'telephone':page.get('phone',''),'url':canonical})
         if faqs and page.get('verified'):
             graph.append({'@type':'FAQPage','mainEntity':[{'@type':'Question','name':f.get('q_en',f['q']) if en else f['q'],'acceptedAnswer':{'@type':'Answer','text':f.get('a_en',f['a']) if en else f['a']}} for f in faqs if f.get('q') and f.get('a')]})
     image=base+'/images/repair-hero.webp'
@@ -75,7 +75,7 @@ async def document_data(path):
     if settings.get('search_console'):head+=f'<meta name="google-site-verification" content="{escape(settings["search_console"])}">'
     head+='<script type="application/ld+json" id="gt-schema">'+json.dumps(meta['graph'],ensure_ascii=False).replace('<','\\u003c')+'</script>'
     prefix='/en' if en else ''
-    body=f'<header><a href="{prefix}/">GlennTek</a><nav><a href="{prefix}/reparacoes/">'+('Repairs' if en else 'Reparações')+f'</a> · <a href="{prefix}/localizacoes/">'+('Locations' if en else 'Localizações')+f'</a> · <a href="{prefix}/blog/">Blog</a></nav></header><main><h1>{escape(title.replace(" | GlennTek",""))}</h1><p>{escape(description)}</p>'
+    body=f'<header><a href="{prefix}/">Glenntek</a><nav><a href="{prefix}/reparacoes/">'+('Repairs' if en else 'Reparações')+f'</a> · <a href="{prefix}/localizacoes/">'+('Locations' if en else 'Localizações')+f'</a> · <a href="{prefix}/blog/">Blog</a></nav></header><main><h1>{escape(title.replace(" | Glenntek",""))}</h1><p>{escape(description)}</p>'
     for para in content.split('\n\n'):
         if para:body+=f'<{"h2" if len(para)<90 else "p"}>{escape(para)}</{"h2" if len(para)<90 else "p"}>'
     if page and page.get('coverage'):body+='<h2>'+('Service area' if en else 'Área de atendimento')+'</h2><p>'+escape(page['coverage'])+'</p><p>'+escape(page.get('service_method',''))+'</p>'

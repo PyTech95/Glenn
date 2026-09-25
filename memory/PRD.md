@@ -31,7 +31,13 @@ GlennTek — a bilingual (PT default, /en English) Portuguese device-repair busi
 - (2026-06 follow-up) Re-verified with independent Playwright (real Chromium): PT homepage, EN homepage (/en), language toggle and mobile (390px) all render correctly. Earlier "stuck spinner" was a screenshot-tool artifact during service restarts/recompiles.
 
 ## Backlog (not requested; optional)
-- P2: Configure real business settings (name, phone/WhatsApp, address, analytics IDs) via admin Settings.
+- P2: Configure real business settings (phone/WhatsApp, address, analytics IDs) via admin Settings.
+
+## Brand update (2026-06)
+- User provided the real logo (teal/blue/green tablet+leaf mark, wordmark "Glenntek"). Replaced the CSS-drawn logo with the real mark: `public/images/logo-mark.png` (header, transparent bg), `public/images/logo-mark-light.png` (white/mint for dark footer), `public/favicon.png`.
+- Theme re-paletted to the logo: primary deep teal `#0e5b52` (buttons, links, accents), dark teal `#093f39`, blue `#1e5a96` (wordmark), leaf green `#5e9c50`; footer/utility bar now deep teal (`#0f3a33`/`#103b35`); Tailwind `--primary`/`--ring` updated.
+- Brand renamed GlennTek → Glenntek across frontend, backend (health/emails/SEO/settings default) and DB `settings.business_name`. NOTE: admin password intentionally remains `GlennTek@2026!` (unchanged).
+- Verified: PT/EN/mobile screenshots, 12/12 backend tests pass.
 - P2: Enable lead email notifications (set admin_email + toggle) if desired.
 - P2: Populate real reviews and blog content via CMS.
 

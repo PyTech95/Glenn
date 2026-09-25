@@ -16,8 +16,8 @@ async def notify(lead_id):
     settings=await db.settings.find_one({'id':'business'},{'_id':0})
     status='not_configured'
     if settings.get('email_notifications') and settings.get('admin_email'):
-        subject='GlennTek — novo pedido de orçamento'
-        html=f'<table role="presentation" width="100%"><tr><td style="padding:24px;font-family:Arial,sans-serif"><h2>Novo pedido de orçamento</h2><p>Foi recebido um novo pedido no website GlennTek.</p><p>Referência: {escape(lead_id[:8].upper())}</p><p><a href="{escape(os.environ["FRONTEND_ORIGIN"])}/admin/leads">Consultar o pedido no painel GlennTek</a></p><p style="font-size:12px;color:#666">Enviado por GlennTek. Não responda a este email com palavras-passe ou dados de pagamento.</p></td></tr></table>'
+        subject='Glenntek — novo pedido de orçamento'
+        html=f'<table role="presentation" width="100%"><tr><td style="padding:24px;font-family:Arial,sans-serif"><h2>Novo pedido de orçamento</h2><p>Foi recebido um novo pedido no website Glenntek.</p><p>Referência: {escape(lead_id[:8].upper())}</p><p><a href="{escape(os.environ["FRONTEND_ORIGIN"])}/admin/leads">Consultar o pedido no painel Glenntek</a></p><p style="font-size:12px;color:#666">Enviado por Glenntek. Não responda a este email com palavras-passe ou dados de pagamento.</p></td></tr></table>'
         try:
             _assert_safe_email(subject,html)
             async with httpx.AsyncClient(timeout=25) as client:
