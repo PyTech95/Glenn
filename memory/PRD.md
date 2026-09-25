@@ -28,6 +28,7 @@ GlennTek — a bilingual (PT default, /en English) Portuguese device-repair busi
 - Admin account created: admin@glenntek.com (see /app/memory/test_credentials.md).
 - Testing agent: backend 100% (12/12 pytest), frontend 100% — homepage renders (PT + /en), all key pages 200, lead submission → 201 with confirmation, admin login + dashboard + leads list, SEO endpoints, health.
 - Fixed: Footer missing React `key` warning; invalid HTML5 phone `pattern` regex in QuoteForm.
+- (2026-06 follow-up) Re-verified with independent Playwright (real Chromium): PT homepage, EN homepage (/en), language toggle and mobile (390px) all render correctly. Earlier "stuck spinner" was a screenshot-tool artifact during service restarts/recompiles.
 
 ## Backlog (not requested; optional)
 - P2: Configure real business settings (name, phone/WhatsApp, address, analytics IDs) via admin Settings.
